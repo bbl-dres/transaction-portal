@@ -21,6 +21,8 @@
 
 A prototype for web-based real estate transaction management platform. This platform enables visualization, filtering, and management of federal government properties available for sale across Switzerland.
 
+## Preview
+
 **Live Demo:** https://bbl-dres.github.io/transaction-immo/
 
 <p align="center">
