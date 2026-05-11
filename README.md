@@ -1,12 +1,27 @@
 # Transaction Immo
 
+<p align="center">
+  <img src="assets/Social1.jpg" width="100%" alt="Transaction Immo"/>
+</p>
+
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"/></a>
+  <img src="https://img.shields.io/badge/status-prototype-orange.svg" alt="Status: Prototype"/>
+  <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white" alt="HTML5"/>
+  <img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white" alt="CSS3"/>
+  <img src="https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript ES6+"/>
+  <img src="https://img.shields.io/badge/MapLibre%20GL-396CB2?logo=maplibre&logoColor=white" alt="MapLibre GL JS"/>
+  <img src="https://img.shields.io/badge/dependencies-none-success.svg" alt="Zero Dependencies"/>
+  <a href="https://bbl-dres.github.io/transaction-immo/"><img src="https://img.shields.io/badge/demo-live-brightgreen.svg" alt="Live Demo"/></a>
+</p>
+
 > [!CAUTION]
 > **This is an unofficial mockup for demonstration purposes only.**
 > All data is fictional. Not all features are fully functional. This project serves as a visual and conceptual prototype — it is not intended for production use.
 
 A prototype for web-based real estate transaction management platform. This platform enables visualization, filtering, and management of federal government properties available for sale across Switzerland.
 
-**LIve Demo:** https://bbl-dres.github.io/transaction-immo/
+**Live Demo:** https://bbl-dres.github.io/transaction-immo/
 
 <p align="center">
   <img src="assets/images/Preview1.jpg" width="90%"/>
