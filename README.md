@@ -17,8 +17,8 @@ A browser-based prototype for exploring and managing federal properties offered 
 **Live demo:** https://bbl-dres.github.io/transaction-portal/
 
 <p align="center">
-  <img src="assets/images/preview-1.jpg" alt="Transaction Portal property gallery" width="49%"/>
-  <img src="assets/images/preview-2.jpg" alt="Transaction Portal property map" width="49%"/>
+  <img src="assets/images/preview-1.jpg" alt="Transaction Portal property gallery" width="49%" align="top"/>
+  <img src="assets/images/preview-2.jpg" alt="Transaction Portal property map" width="49%" align="top"/>
 </p>
 
 ## Features
