@@ -1,8 +1,11 @@
 # Transaction Immo
 
 <p align="center">
-  <img src="assets/Social1.jpg" width="100%" alt="Transaction Immo"/>
+  <img src="assets/social-preview.jpg" width="100%" alt="Transaction Immo"/>
 </p>
+
+[![Demo](https://img.shields.io/badge/demo-GitHub%20Pages-2ea44f?logo=github&logoColor=white)](https://bbl-dres.github.io/transaction-portal/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A browser-based prototype for exploring and managing federal properties offered for sale across Switzerland.
 
@@ -12,6 +15,13 @@ A browser-based prototype for exploring and managing federal properties offered 
 ## Demo
 
 **Live demo:** https://bbl-dres.github.io/transaction-portal/
+
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+  <tr>
+    <td width="50%" valign="top"><img src="assets/images/preview-1.jpg" alt="Transaction Portal property gallery" width="100%"/></td>
+    <td width="50%" valign="top"><img src="assets/images/preview-2.jpg" alt="Transaction Portal property map" width="100%"/></td>
+  </tr>
+</table>
 
 ## Features
 
