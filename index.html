@@ -3,17 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#383E54">
   <title>Verkaufsplattform - Bundesamt für Bauten und Logistik</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
   <script src="https://unpkg.com/maplibre-gl@5.18.0/dist/maplibre-gl.js"></script>
   <link href="https://unpkg.com/maplibre-gl@5.18.0/dist/maplibre-gl.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/views.css">
+  <link rel="stylesheet" href="css/detail.css">
+  <link rel="stylesheet" href="css/sales-form.css">
+  <link rel="stylesheet" href="css/print.css" media="print">
 </head>
 <body>
   <a href="#main" class="skip-link">Zum Hauptinhalt springen</a>
   <header class="header">
-    <a href="/" class="header-left">
+    <a href="./" class="header-left">
       <div class="logo"><img src="assets/images/ch.png" alt="Schweizer Wappen"></div>
       <div class="header-title">
         <span class="header-title-main">Verkaufsplattform</span>
@@ -23,34 +30,32 @@
     </a>
     <div class="prototype-warning" role="status" aria-label="Prototyp-Warnung">Prototyp – nur zur Demonstration</div>
     <div class="header-right">
-      <button class="btn btn-primary" onclick="openSalesForm()">Auftrag erstellen</button>
-      <button class="btn btn-outline" onclick="openLoginDialog()">Login</button>
+      <button type="button" class="btn btn-primary" onclick="openSalesForm()">Auftrag erstellen</button>
+      <button type="button" class="btn btn-outline" onclick="openLoginDialog()">Login</button>
     </div>
   </header>
 
   <div class="search-section">
     <div class="search-section-inner">
       <div class="search-row">
-        <div class="search-input-wrapper">
-          <span class="material-icons-outlined">search</span>
-          <input type="search" class="search-input" id="searchInput" placeholder="Suche nach Bezeichnung, Adresse, oder Wirtschaftseinheit" autocomplete="off">
-          <button type="button" class="search-input-clear" id="searchInputClear">
-            <span class="material-icons-outlined">close</span>
-          </button>
+        <div class="search-field">
+          <span class="material-icons-outlined search-field-icon">search</span>
+          <input type="search" class="input" id="searchInput" placeholder="Suche nach Bezeichnung, Adresse, oder Wirtschaftseinheit" data-placeholder-short="Bezeichnung oder Adresse suchen" aria-label="Suche" autocomplete="off">
+          <button type="button" class="icon-btn icon-btn-sm input-clear" id="searchInputClear" aria-label="Suche löschen"><span class="material-icons-outlined">close</span></button>
         </div>
-        <div class="view-toggle">
-          <button class="view-btn" data-view="map" title="Karte"><span class="material-icons-outlined">map</span></button>
-          <button class="view-btn" data-view="list" title="Liste"><span class="material-icons-outlined">reorder</span><span class="view-btn-label">Liste</span></button>
-          <button class="view-btn active" data-view="gallery" title="Galerie"><span class="material-icons-outlined">grid_view</span></button>
+        <div class="view-toggle" role="group" aria-label="Ansicht">
+          <button type="button" class="view-btn" data-view="map" title="Karte" aria-label="Karte"><span class="material-icons-outlined">map</span></button>
+          <button type="button" class="view-btn" data-view="list" title="Liste" aria-label="Liste"><span class="material-icons-outlined">reorder</span></button>
+          <button type="button" class="view-btn active" data-view="gallery" title="Galerie" aria-label="Galerie"><span class="material-icons-outlined">grid_view</span></button>
         </div>
       </div>
       <div class="filter-row">
-        <div class="filter-pills" id="filterPills"></div>
+        <div class="filter-chips" id="filterPills"></div>
         <div class="filter-right">
           <div class="stats-count"><span id="objectCount">0</span> Objekte</div>
-          <button class="filter-btn" id="filterBtn">
+          <button type="button" class="filter-btn" id="filterBtn">
             <span>Filter</span>
-            <span class="filter-count" id="filterCount" style="display: none;">0</span>
+            <span class="filter-count" id="filterCount">0</span>
             <span class="material-icons-outlined">tune</span>
           </button>
         </div>
@@ -65,249 +70,172 @@
 
     <div class="view-container" id="listView">
       <div class="stats-boxes" id="statsBoxes">
-        <div class="stats-box"><div class="stats-box-value" id="statsTotalObjects">0</div><div class="stats-box-label">Anzahl Objekte</div></div>
-        <div class="stats-box"><div class="stats-box-value" id="statsHighPriority">0</div><div class="stats-box-label">Hohe Priorität</div></div>
-        <div class="stats-box"><div class="stats-box-value" id="statsNormalPriority">0</div><div class="stats-box-label">Normale Priorität</div></div>
-        <div class="stats-box"><div class="stats-box-value" id="statsLowPriority">0</div><div class="stats-box-label">Geringe Priorität</div></div>
-        <div class="stats-box stats-box-download" onclick="exportToExcel()"><span class="material-icons-outlined">download</span><div class="stats-box-label">Excel Download</div></div>
+        <div class="panel stat-card"><div class="stat-card-value" id="statsTotalObjects">0</div><div class="stat-card-label">Anzahl Objekte</div></div>
+        <div class="panel stat-card"><div class="stat-card-value" id="statsHighPriority">0</div><div class="stat-card-label">Hohe Priorität</div></div>
+        <div class="panel stat-card"><div class="stat-card-value" id="statsNormalPriority">0</div><div class="stat-card-label">Normale Priorität</div></div>
+        <div class="panel stat-card"><div class="stat-card-value" id="statsLowPriority">0</div><div class="stat-card-label">Geringe Priorität</div></div>
+        <div class="panel stat-card stat-card-action" onclick="exportToExcel()" role="button" tabindex="0"><span class="material-icons-outlined">download</span><div class="stat-card-label">Excel Download</div></div>
       </div>
-      <div class="list-table-container">
-        <table class="list-table">
+      <div class="panel table-scroll">
+        <table class="data-table data-table-clickable list-table">
           <thead><tr><th></th><th>ID</th><th>Objekt</th><th>Verkaufsjahr</th><th>Priorisierung</th><th>Meilenstein</th><th>Objekt Fläche</th><th>Marktwert</th></tr></thead>
           <tbody id="listTableBody"></tbody>
         </table>
       </div>
     </div>
 
-    <div class="map-container" id="mapView">
+    <div class="panel map-container" id="mapView">
       <div class="map-sidebar" id="mapSidebar"></div>
-      <div class="map-area">
-        <div id="map"></div>
-      </div>
+      <div class="map-area"><div id="map"></div></div>
     </div>
   </main>
 
-  <!-- Detail View (Single Page) -->
-  <div class="detail-view" id="detailView">
-    <div class="detail-header">
-      <div class="detail-header-inner">
-        <span class="detail-breadcrumb" id="detailBreadcrumb"></span>
-        <div class="detail-header-actions">
-          <button class="btn btn-primary" onclick="exportToPdf()">Als PDF exportieren</button>
-          <button class="btn btn-secondary detail-back-btn" onclick="closeDetailPage()">
-            <span class="material-icons-outlined">arrow_back</span>
-            Zurück zur Übersicht
-          </button>
+  <!-- Detail page -->
+  <div class="page-view" id="detailView">
+    <div class="page-header">
+      <div class="page-header-inner">
+        <span class="page-breadcrumb" id="detailBreadcrumb"></span>
+        <div class="page-header-actions">
+          <button type="button" class="btn btn-primary" onclick="exportToPdf()">Als PDF exportieren</button>
+          <button type="button" class="btn btn-secondary detail-back-btn" onclick="closeDetailPage()"><span class="material-icons-outlined">arrow_back</span>Zurück zur Übersicht</button>
         </div>
       </div>
     </div>
-    <div class="detail-content" id="detailContent">
-      <!-- Content will be rendered by JavaScript -->
-    </div>
+    <div class="page-content" id="detailContent"></div>
   </div>
 
-  <!-- Sales Form View -->
-  <div class="sales-form-view" id="salesFormView">
-    <div class="sales-form-header">
-      <div class="sales-form-header-inner">
-        <h1 class="sales-form-title">Auftrag erstellen</h1>
-        <button class="btn btn-secondary" onclick="closeSalesForm()">Abbrechen</button>
+  <!-- Wizard -->
+  <div class="page-view sales-form-view" id="salesFormView">
+    <div class="page-header">
+      <div class="page-header-inner">
+        <h1 class="page-title">Auftrag erstellen</h1>
+        <button type="button" class="btn btn-secondary" onclick="closeSalesForm()">Abbrechen</button>
       </div>
     </div>
     <div class="sales-form-container">
       <aside class="sales-form-sidebar">
-        <div class="sales-form-sidebar-inner">
+        <div class="panel sales-form-sidebar-inner">
           <div class="sales-form-sidebar-title">In 4 Schritten</div>
-          <div class="sales-form-progress">
-            <div class="sales-form-progress-bar" id="salesFormProgressBar" style="width: 25%"></div>
-          </div>
+          <div class="progress progress-sm"><div class="progress-fill" id="salesFormProgressBar" style="width: 25%"></div></div>
           <div class="sales-form-steps" id="salesFormSteps">
-            <div class="sales-form-step active" data-step="1" onclick="goToSalesFormStep(1)">
-              <span class="sales-form-step-icon">1</span>
-              <span>Objekt erfassen</span>
-            </div>
-            <div class="sales-form-step" data-step="2" onclick="goToSalesFormStep(2)">
-              <span class="sales-form-step-icon">2</span>
-              <span>Angaben zum Objekt</span>
-            </div>
-            <div class="sales-form-step" data-step="3" onclick="goToSalesFormStep(3)">
-              <span class="sales-form-step-icon">3</span>
-              <span>Angaben zum Mieter</span>
-            </div>
-            <div class="sales-form-step" data-step="4" onclick="goToSalesFormStep(4)">
-              <span class="sales-form-step-icon">4</span>
-              <span>Zusammenfassung</span>
-            </div>
+            <div class="sales-form-step active" data-step="1" onclick="goToSalesFormStep(1)"><span class="sales-form-step-icon">1</span><span>Objekt erfassen</span></div>
+            <div class="sales-form-step" data-step="2" onclick="goToSalesFormStep(2)"><span class="sales-form-step-icon">2</span><span>Angaben zum Objekt</span></div>
+            <div class="sales-form-step" data-step="3" onclick="goToSalesFormStep(3)"><span class="sales-form-step-icon">3</span><span>Angaben zum Mieter</span></div>
+            <div class="sales-form-step" data-step="4" onclick="goToSalesFormStep(4)"><span class="sales-form-step-icon">4</span><span>Zusammenfassung</span></div>
           </div>
           <div class="sales-form-final-step">Auftrag erstellt</div>
         </div>
       </aside>
-      <div class="sales-form-content" id="salesFormContent">
-        <!-- Step content will be rendered by JavaScript -->
-      </div>
+      <div class="panel sales-form-content" id="salesFormContent"></div>
     </div>
   </div>
 
-  <!-- Filter Modal -->
-  <div class="filter-modal-overlay" id="filterModalOverlay" role="dialog" aria-modal="true" aria-labelledby="filterModalTitle">
-    <div class="filter-modal">
-      <div class="filter-modal-header">
-        <h2 id="filterModalTitle">Suchfilter</h2>
-        <div class="filter-modal-actions">
-          <button class="filter-reset-btn" id="filterResetBtn" title="Filter zurücksetzen">
-            <span class="material-icons-outlined">refresh</span>
-          </button>
-          <button class="filter-close-btn" id="filterCloseBtn">
-            <span class="material-icons-outlined">close</span>
-          </button>
+  <!-- API documentation -->
+  <div class="page-view api-docs-view" id="apiDocsView">
+    <div class="page-header">
+      <div class="page-header-inner">
+        <span class="page-breadcrumb">API Dokumentation</span>
+        <div class="page-header-actions">
+          <button type="button" class="btn btn-secondary detail-back-btn" onclick="closeApiDocsPage()"><span class="material-icons-outlined">arrow_back</span>Zurück zur Übersicht</button>
         </div>
       </div>
-      <div class="filter-modal-body">
+    </div>
+    <div class="page-content" id="apiDocsContent"></div>
+  </div>
+
+  <!-- Filter dialog -->
+  <div class="overlay overlay-top" id="filterModalOverlay" role="dialog" aria-modal="true" aria-labelledby="filterModalTitle">
+    <div class="dialog dialog-lg">
+      <div class="dialog-header">
+        <h2 class="dialog-title" id="filterModalTitle">Suchfilter</h2>
+        <div class="dialog-header-actions">
+          <button type="button" class="icon-btn icon-btn-filled" id="filterResetBtn" title="Filter zurücksetzen" aria-label="Filter zurücksetzen"><span class="material-icons-outlined">refresh</span></button>
+          <button type="button" class="icon-btn icon-btn-filled" id="filterCloseBtn" aria-label="Schliessen"><span class="material-icons-outlined">close</span></button>
+        </div>
+      </div>
+      <div class="dialog-body">
         <div class="filter-columns">
-          <div class="filter-column">
-            <h3 class="filter-column-title">Nutzung</h3>
-            <div class="filter-options" id="filterNutzung"></div>
-          </div>
-          <div class="filter-column">
-            <h3 class="filter-column-title">Verkaufsjahr</h3>
-            <div class="filter-options" id="filterYear"></div>
-          </div>
-          <div class="filter-column">
-            <h3 class="filter-column-title">Priorisierung</h3>
-            <div class="filter-options" id="filterPriority"></div>
-          </div>
-          <div class="filter-column">
-            <h3 class="filter-column-title">Meilenstein</h3>
-            <div class="filter-options" id="filterMilestone"></div>
-          </div>
-          <div class="filter-column">
-            <h3 class="filter-column-title">Portfolio</h3>
-            <div class="filter-options" id="filterPortfolio"></div>
-          </div>
+          <div><h3 class="filter-column-title">Nutzung</h3><div class="filter-options" id="filterNutzung"></div></div>
+          <div><h3 class="filter-column-title">Verkaufsjahr</h3><div class="filter-options" id="filterYear"></div></div>
+          <div><h3 class="filter-column-title">Priorisierung</h3><div class="filter-options" id="filterPriority"></div></div>
+          <div><h3 class="filter-column-title">Meilenstein</h3><div class="filter-options" id="filterMilestone"></div></div>
+          <div><h3 class="filter-column-title">Portfolio</h3><div class="filter-options" id="filterPortfolio"></div></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Image Carousel -->
-  <div class="carousel-overlay" id="carouselOverlay" role="dialog" aria-modal="true" aria-label="Bildergalerie">
+  <!-- Image carousel -->
+  <div class="overlay overlay-dark carousel-overlay" id="carouselOverlay" role="dialog" aria-modal="true" aria-label="Bildergalerie">
     <div class="carousel-header">
       <span class="carousel-counter" id="carouselCounter" aria-live="polite">1 / 5</span>
-      <button class="carousel-close-btn" onclick="closeCarousel()" title="Schliessen (Esc)">
-        <span class="material-icons-outlined">close</span>
-      </button>
+      <button type="button" class="icon-btn icon-btn-inverse" onclick="closeCarousel()" title="Schliessen (Esc)" aria-label="Schliessen"><span class="material-icons-outlined">close</span></button>
     </div>
-    <div class="carousel-main" onclick="if(event.target === this) closeCarousel()">
-      <button class="carousel-nav-btn prev" onclick="navigateCarousel(-1)" title="Vorheriges Bild">
-        <span class="material-icons-outlined">chevron_left</span>
-      </button>
-      <div class="carousel-image-container">
-        <img class="carousel-image" id="carouselImage" src="" alt="Bild">
-      </div>
-      <button class="carousel-nav-btn next" onclick="navigateCarousel(1)" title="Nächstes Bild">
-        <span class="material-icons-outlined">chevron_right</span>
-      </button>
+    <div class="carousel-main" onclick="closeOnBackdrop(event, closeCarousel)">
+      <button type="button" class="icon-btn icon-btn-inverse icon-btn-lg carousel-nav-btn prev" onclick="navigateCarousel(-1)" title="Vorheriges Bild" aria-label="Vorheriges Bild"><span class="material-icons-outlined">chevron_left</span></button>
+      <div class="carousel-image-container"><img class="carousel-image" id="carouselImage" src="" alt="Bild"></div>
+      <button type="button" class="icon-btn icon-btn-inverse icon-btn-lg carousel-nav-btn next" onclick="navigateCarousel(1)" title="Nächstes Bild" aria-label="Nächstes Bild"><span class="material-icons-outlined">chevron_right</span></button>
     </div>
     <div class="carousel-thumbnails" id="carouselThumbnails"></div>
   </div>
 
-  <!-- Upload Document Dialog -->
-  <div class="dialog-overlay" id="uploadDialogOverlay" role="dialog" aria-modal="true" aria-labelledby="uploadDialogTitle" onclick="if(event.target === this) closeUploadDialog()">
-    <div class="upload-dialog">
+  <!-- Upload dialog -->
+  <div class="overlay" id="uploadDialogOverlay" role="dialog" aria-modal="true" aria-labelledby="uploadDialogTitle" onclick="closeOnBackdrop(event, closeUploadDialog)">
+    <div class="dialog dialog-md">
       <div class="dialog-header">
         <h3 class="dialog-title" id="uploadDialogTitle">Dokument hochladen</h3>
-        <button class="dialog-close-btn" onclick="closeUploadDialog()" aria-label="Schliessen">
-          <span class="material-icons-outlined">close</span>
-        </button>
+        <button type="button" class="icon-btn" onclick="closeUploadDialog()" aria-label="Schliessen"><span class="material-icons-outlined">close</span></button>
       </div>
-
-      <div class="upload-step">
-        <div class="upload-step-label">1. Datei auswählen</div>
-        <div class="upload-dropzone" id="uploadDropzone" onclick="document.getElementById('uploadFileInput').click()">
-          <span id="uploadDropzoneText" class="upload-dropzone-text">Datei auswählen</span>
+      <div class="dialog-body">
+        <div class="form-field">
+          <span class="form-label">1. Datei auswählen</span>
+          <div class="upload-dropzone" id="uploadDropzone" onclick="document.getElementById('uploadFileInput').click()" role="button" tabindex="0">
+            <span id="uploadDropzoneText" class="upload-dropzone-text">Datei auswählen</span>
+          </div>
+          <input type="file" id="uploadFileInput" class="visually-hidden" onchange="handleFileSelect(this.files[0])">
         </div>
-        <input type="file" id="uploadFileInput" style="display: none;" onchange="handleFileSelect(this.files[0])">
+        <div class="form-field">
+          <label class="form-label" for="uploadTypeSelect">2. Art der Datei auswählen</label>
+          <select class="input input-select" id="uploadTypeSelect" onchange="validateUploadForm()"></select>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="uploadNameInput">3. Dateiname</label>
+          <input type="text" class="input" id="uploadNameInput" placeholder="Dateiname eingeben" oninput="validateUploadForm()">
+        </div>
       </div>
-
-      <div class="upload-step">
-        <div class="upload-step-label">2. Art der Datei auswählen</div>
-        <select class="upload-select" id="uploadTypeSelect" onchange="validateUploadForm()">
-          <option value="">Choose an option...</option>
-          <option value="3D-Modelldaten">3D-Modelldaten</option>
-          <option value="Ansichtsplan">Ansichtsplan</option>
-          <option value="Auszug ÖREB-Kataster">Auszug ÖREB-Kataster</option>
-          <option value="Akte zu Unterhalt">Akte zu Unterhalt</option>
-          <option value="Grundrissplan">Grundrissplan</option>
-          <option value="Indikative Marktwertbewertung">Indikative Marktwertbewertung</option>
-          <option value="Kauf- Dienstbarkeitsvertrag">Kauf- Dienstbarkeitsvertrag</option>
-          <option value="Mieterdossier">Mieterdossier</option>
-          <option value="Mietvertrag">Mietvertrag</option>
-          <option value="Schliessplan / Sicherungsschein">Schliessplan / Sicherungsschein</option>
-          <option value="Serviceverträge">Serviceverträge</option>
-          <option value="Sonstiges">Sonstiges</option>
-        </select>
-      </div>
-
-      <div class="upload-step">
-        <div class="upload-step-label">3. Dateiname</div>
-        <input type="text" class="form-input" id="uploadNameInput" placeholder="Dateiname eingeben" oninput="validateUploadForm()">
-      </div>
-
       <div class="dialog-actions">
-        <button class="btn btn-secondary" onclick="closeUploadDialog()">Abbrechen</button>
-        <button class="btn btn-primary" id="uploadSubmitBtn" onclick="submitDocumentUpload()" disabled>Hochladen</button>
+        <button type="button" class="btn btn-secondary" onclick="closeUploadDialog()">Abbrechen</button>
+        <button type="button" class="btn btn-primary" id="uploadSubmitBtn" onclick="submitDocumentUpload()" disabled>Hochladen</button>
       </div>
     </div>
   </div>
 
-  <!-- Login Dialog -->
-  <div class="dialog-overlay" id="loginDialogOverlay" role="dialog" aria-modal="true" aria-labelledby="loginDialogTitle" onclick="if(event.target === this) closeLoginDialog()">
-    <div class="login-dialog">
+  <!-- Login dialog -->
+  <div class="overlay" id="loginDialogOverlay" role="dialog" aria-modal="true" aria-labelledby="loginDialogTitle" onclick="closeOnBackdrop(event, closeLoginDialog)">
+    <div class="dialog dialog-sm">
       <div class="dialog-header">
         <h3 class="dialog-title" id="loginDialogTitle">Anmelden</h3>
-        <button class="dialog-close-btn" onclick="closeLoginDialog()" aria-label="Schliessen">
-          <span class="material-icons-outlined">close</span>
-        </button>
+        <button type="button" class="icon-btn" onclick="closeLoginDialog()" aria-label="Schliessen"><span class="material-icons-outlined">close</span></button>
       </div>
-
-      <div class="login-form">
-        <div class="login-field">
-          <label class="login-label" for="loginEmail">E-Mail</label>
-          <input type="email" class="form-input" id="loginEmail" placeholder="name@beispiel.ch">
+      <div class="dialog-body">
+        <div class="form-field">
+          <label class="form-label" for="loginEmail">E-Mail</label>
+          <input type="email" class="input" id="loginEmail" placeholder="name@beispiel.ch" autocomplete="username">
         </div>
-
-        <div class="login-field">
-          <label class="login-label" for="loginPassword">Passwort</label>
-          <input type="password" class="form-input" id="loginPassword" placeholder="Passwort eingeben">
+        <div class="form-field">
+          <label class="form-label" for="loginPassword">Passwort</label>
+          <input type="password" class="input" id="loginPassword" placeholder="Passwort eingeben" autocomplete="current-password">
         </div>
       </div>
-
-      <div class="login-links">
-        <a class="login-link" onclick="alert('Funktion noch nicht verfügbar')">Kennwort vergessen?</a>
-        <a class="login-link" onclick="alert('Funktion noch nicht verfügbar')">Neu registrieren</a>
+      <div class="dialog-links">
+        <a class="link" href="#" onclick="event.preventDefault(); alert('Funktion noch nicht verfügbar')">Kennwort vergessen?</a>
+        <a class="link" href="#" onclick="event.preventDefault(); alert('Funktion noch nicht verfügbar')">Neu registrieren</a>
       </div>
-
       <div class="dialog-actions">
-        <button class="btn btn-secondary" onclick="closeLoginDialog()">Abbrechen</button>
-        <button class="btn btn-primary" onclick="submitLogin()">Anmelden</button>
+        <button type="button" class="btn btn-secondary" onclick="closeLoginDialog()">Abbrechen</button>
+        <button type="button" class="btn btn-primary" onclick="submitLogin()">Anmelden</button>
       </div>
     </div>
-  </div>
-
-  <!-- API Docs View -->
-  <div class="api-docs-view" id="apiDocsView">
-    <div class="detail-header">
-      <div class="detail-header-inner">
-        <span class="detail-breadcrumb">API Dokumentation</span>
-        <div class="detail-header-actions">
-          <button class="btn btn-secondary detail-back-btn" onclick="closeApiDocsPage()">
-            <span class="material-icons-outlined">arrow_back</span>
-            Zurück zur Übersicht
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="detail-content" id="apiDocsContent"></div>
   </div>
 
   <footer class="footer">
@@ -320,6 +248,16 @@
     </div>
   </footer>
 
+  <script src="js/config.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/views.js"></script>
+  <script src="js/detail.js"></script>
+  <script src="js/sales-form.js"></script>
+  <script src="js/api-docs.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

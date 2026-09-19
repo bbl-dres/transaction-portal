@@ -41,6 +41,44 @@ python -m http.server 8000
 
 Then open <http://localhost:8000/>.
 
+## Project structure
+
+No build step: plain HTML, CSS and JavaScript loaded directly by `index.html`.
+
+```
+css/tokens.css       design tokens (colours, type, spacing, radius, shadows, z-index, motion)
+css/base.css         reset, typography, focus styles, utilities
+css/components.css   reusable components: buttons, inputs, tags, chips, panels, data items,
+                     tables, tabs, dialogs
+css/layout.css       app shell (header, search bar, footer, page views) + shell breakpoints
+css/views.css        gallery, list, map, filter dialog, carousel, upload, API docs
+css/detail.css       property detail page
+css/sales-form.css   "Auftrag erstellen" wizard
+css/print.css        print layout for "Als PDF exportieren"
+
+js/config.js         labels, scales and field definitions (priorities, milestones, SIA 416, …)
+js/state.js          the mutable application state
+js/utils.js          formatters, DOM shortcuts, shared markup fragments
+js/router.js         URL ↔ state, page views, browser history
+js/ui.js             overlays, tabs, selectable tables, carousel, keyboard shortcuts
+js/filters.js        search, chips, filter dialog
+js/views.js          gallery / list / map rendering
+js/detail.js         detail page incl. documents and upload
+js/sales-form.js     wizard steps
+js/api-docs.js       API documentation page
+js/main.js           event delegation and start-up
+
+data/data.json       fictional sample data
+tools/               Playwright scripts: responsive-audit.js (screenshots + overflow report),
+                     smoke-test.js (functional regression test)
+docs/                design reviews
+```
+
+Conventions: every colour, size, radius, shadow and duration in the stylesheets comes from
+`css/tokens.css`; page-specific files only combine the components. Scripts are classic
+(non-module) scripts sharing the global scope so that inline `onclick` handlers keep working;
+they are loaded in the order listed above. Run `node tools/smoke-test.js` after changes.
+
 ## License
 
 Licensed under the [MIT License](LICENSE).
