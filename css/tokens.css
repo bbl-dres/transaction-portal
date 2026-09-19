@@ -1,12 +1,16 @@
-/* --- Design Tokens (Modern Unified Color Scheme) --- */
+/* ==========================================================================
+   Design tokens
+   Every colour, size, radius, shadow, z-index and motion value used by the
+   stylesheets is defined here. Component files only reference tokens.
+   ========================================================================== */
 :root {
-  /* Primary Palette - Brand Colors */
+  /* --- Colour: brand --- */
   --primary-900: #383E54;
   --primary-700: #2D3748;
   --primary-500: #4A5568;
   --primary-100: #EDF2F7;
 
-  /* Accent Palette - Unified Teal (Complete Scale) */
+  /* --- Colour: accent (teal scale) --- */
   --accent-700: #005F8A;
   --accent-600: #0077B6;
   --accent-500: #0096C7;
@@ -16,8 +20,7 @@
   --accent-100: #CAF0F8;
   --accent-50: #E0F7FA;
 
-  /* Neutral Palette - Enhanced Contrast Gray Scale
-     Adjusted for better visibility of borders/dividers against white backgrounds */
+  /* --- Colour: neutrals --- */
   --neutral-900: #111827;
   --neutral-800: #1F2937;
   --neutral-700: #374151;
@@ -29,94 +32,49 @@
   --neutral-100: #F1F5F9;
   --neutral-50: #FFFFFF;
 
-  /* Priority Colors - Semantic Status Indicators
-     Design Decision: Colors map to urgency/attention levels:
-     - High (Red): Critical, requires immediate attention
-     - Medium (Amber): Moderate priority, review soon
-     - Standard (Green): Active/on-track, proceeding normally
-     - Low (Blue): Informational, lower urgency
-     - None (Gray): Inactive, archived, or no priority assigned
-  */
+  /* --- Colour: priority scale (value 0..3 and null, see js/config.js) ---
+     0 high = red, 1 normal = green, 2 low = blue, 3 none = grey, null = outlined grey */
   --priority-high: #DC2626;
   --priority-high-bg: #FEE2E2;
   --priority-high-text: #B91C1C;
-  --priority-high-marker: #DC2626;
-
-  /* Medium Priority - Amber (new tier for moderate urgency) */
-  --priority-medium: #F59E0B;
-  --priority-medium-bg: #FEF3C7;
-  --priority-medium-text: #B45309;
-  --priority-medium-marker: #F59E0B;
-
-  /* Standard/Normal - Green indicates "on track" or "active" status */
   --priority-normal: #10B981;
   --priority-normal-bg: #D1FAE5;
   --priority-normal-text: #047857;
-  --priority-normal-marker: #10B981;
-  /* Semantic alias for clarity */
-  --priority-standard: var(--priority-normal);
-  --priority-standard-bg: var(--priority-normal-bg);
-  --priority-standard-text: var(--priority-normal-text);
-
   --priority-low: #3B82F6;
   --priority-low-bg: #DBEAFE;
   --priority-low-text: #1D4ED8;
-  --priority-low-marker: #3B82F6;
-
   --priority-none: #9CA3AF;
   --priority-none-bg: #F3F4F6;
   --priority-none-text: #6B7280;
-  --priority-none-marker: #9CA3AF;
-
+  --priority-null: #D1D5DB;
   --priority-null-bg: #F9FAFB;
   --priority-null-text: #9CA3AF;
   --priority-null-border: #E5E7EB;
-  --priority-null-marker: #D1D5DB;
 
-  /* Warning Colors - Caution/Attention States */
-  --warning: #F59E0B;
-  --warning-bg: #FEF3C7;
-  --warning-text: #B45309;
-  --warning-border: #FCD34D;
-
-  /* Semantic Colors */
+  /* --- Colour: semantic status (reuse the scales above) --- */
+  --color-success: var(--priority-normal-text);
+  --color-success-bg: var(--priority-normal-bg);
+  --color-info: var(--accent-600);
+  --color-info-bg: var(--accent-100);
+  --color-warning: #B45309;
+  --color-warning-bg: #FEF3C7;
+  --color-warning-accent: #F59E0B;   /* prototype banner */
+  --color-danger: var(--priority-high-text);
+  --color-danger-bg: var(--priority-high-bg);
   --color-star: #FFC107;
   --color-star-empty: var(--neutral-300);
 
-  /* Spacing Scale (4px base unit) */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-9: 36px;
-  --space-10: 40px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-20: 80px;
+  /* --- Colour: overlays and translucent controls --- */
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+  --overlay-bg-dark: rgba(0, 0, 0, 0.95);
+  --overlay-control-bg: rgba(255, 255, 255, 0.1);
+  --overlay-control-bg-hover: rgba(255, 255, 255, 0.25);
+  --accent-overlay-bg: rgba(0, 119, 182, 0.85);
+  --accent-overlay-bg-hover: rgba(0, 119, 182, 0.95);
 
-  /* Layout */
-  --page-max-width: 1440px;
-  --page-gutter: var(--space-6);        /* Horizontal page padding (16px on phones, see below) */
-  --panel-padding: var(--space-6);      /* Inner padding of content panels (16px on phones) */
-
-  /* Semantic Spacing Aliases */
-  --spacing-section: var(--space-8);      /* 32px - Major section separation */
-  --spacing-subsection: var(--space-6);   /* 24px - Subsection separation */
-  --spacing-element: var(--space-4);      /* 16px - Element spacing */
-  --spacing-tight: var(--space-2);        /* 8px - Tight spacing */
-  --spacing-micro: var(--space-1);        /* 4px - Micro spacing */
-
-  /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
-  --radius-full: 9999px;
-
-  /* Typography Scale */
+  /* --- Typography --- */
+  --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --font-size-2xs: 11px;
   --font-size-xs: 12px;
   --font-size-sm: 13px;
@@ -130,38 +88,74 @@
   --font-size-5xl: 36px;
   --font-size-6xl: 40px;
   --font-size-7xl: 48px;
-
-  /* Font Weights */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-
-  /* Line Heights */
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
-  --line-height-relaxed: 1.625;
 
-  /* Transitions */
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.2s ease;
-  --transition-slow: 0.3s ease;
+  /* --- Spacing (4px base) --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
 
-  /* Interactive States */
-  --state-hover-bg: #F7FAFC;
-  --state-active-bg: var(--accent-600);
-  --state-focus-ring: 0 0 0 3px rgba(0, 119, 182, 0.2);
-  --state-focus-ring-accent: 0 0 0 3px rgba(0, 150, 199, 0.3);
-  --state-disabled: #CBD5E0;
+  /* --- Layout --- */
+  --page-max-width: 1440px;
+  --page-gutter: var(--space-6);        /* horizontal page padding (16px on phones, see below) */
+  --panel-padding: var(--space-6);      /* inner padding of content panels (16px on phones) */
+  --header-height: 68px;
+  --map-sidebar-width: 320px;
+  --wizard-sidebar-width: 280px;
+  --media-height-card: 180px;
+  --media-height-sidebar: 160px;
+  --media-height-popup: 120px;
+  --media-height-hero: 420px;
+  --control-size: var(--space-9);       /* icon buttons */
+  --touch-target: 44px;
 
-  /* Shadows */
+  /* --- Radius --- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* --- Shadows --- */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
   --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.15);
+  --shadow-marker: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.3), 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-marker-selected: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(0, 119, 182, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3);
 
-  /* Overlays */
-  --overlay-bg: rgba(0, 0, 0, 0.5);
+  /* --- Interactive states --- */
+  --state-hover-bg: #F7FAFC;
+  --state-focus-ring: 0 0 0 3px rgba(0, 119, 182, 0.2);
+  --state-error-border: var(--priority-high);
+  --state-error-ring: 0 0 0 3px rgba(220, 38, 38, 0.15);
+  --state-error-bg: rgba(220, 38, 38, 0.03);
+
+  /* --- Motion --- */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
+
+  /* --- Stacking --- */
+  --z-raised: 2;          /* tags over images, controls over tracks */
+  --z-dropdown: 100;
+  --z-modal: 1000;        /* filter dialog */
+  --z-dialog: 2000;       /* dialogs and the image carousel */
+  --z-skip-link: 9999;
 }
 
 /* Tighter gutters on phones so content gets the width instead of the margins */

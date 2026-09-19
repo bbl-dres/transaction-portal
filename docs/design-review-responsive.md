@@ -109,6 +109,8 @@ Severity: **S1** blocks a task on that device · **S2** clearly degraded, workar
 
 ## 2. What changed (by file)
 
+> Note: the files below describe the state at the time of this review. The stylesheet and script were subsequently split into modules and shared components (see `design-review-maintainability.md`); the rules themselves are unchanged.
+
 - `css/tokens.css` – new layout tokens `--page-max-width`, `--page-gutter` (24 px → 16 px on phones) and `--panel-padding`.
 - `css/styles.css`
   - base rules: header wraps, buttons never break mid-label, tags `nowrap`, list table scrolls instead of clipping, tabs scroll, toolbar and actions wrap, dialogs get margins and max-height, carousel thumbs safe-centred, wizard content `min-width: 0`, 34 px "Bearbeiten" target, footer link hit area;

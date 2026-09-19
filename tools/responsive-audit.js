@@ -97,7 +97,7 @@ const MAP_STUB = () => {
     for (const st of STATES) {
       try {
         await page.goto(BASE + st.url, { waitUntil: 'domcontentloaded' });
-        await page.waitForFunction(() => document.querySelectorAll('.card, .list-table tbody tr, .map-sidebar-item, .detail-content *').length > 0, null, { timeout: 4000 }).catch(() => {});
+        await page.waitForFunction(() => document.querySelectorAll('.card, .list-table tbody tr, .map-sidebar-item, .page-content *').length > 0, null, { timeout: 4000 }).catch(() => {});
         await page.evaluate(() => document.fonts.ready);
         await page.waitForTimeout(500);
         if (st.after) { await st.after(page); await page.waitForTimeout(400); }

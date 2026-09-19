@@ -1,0 +1,11 @@
+/* Print ("Als PDF exportieren"): chrome removed, all detail sections on paper */
+.header, .footer, .search-section, .skip-link, .page-header, .tabs, .table-toolbar,
+.milestone-action, .data-table-checkbox, .detail-gallery, .detail-geo-map, .detail-route-link,
+.overlay { display: none !important; }
+body { background: var(--neutral-50); color: var(--neutral-900); }
+.page-content { box-shadow: none; border-radius: 0; margin: 0; padding: 0; width: 100%; max-width: none; }
+.tab-panel { display: block !important; }
+.tab-panel + .tab-panel { break-before: page; }
+.data-item, .milestone-item, .data-table tr, .detail-map-container { break-inside: avoid; }
+.progress, .progress-fill, .tag, .detail-value-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+a { color: inherit; text-decoration: none; }
