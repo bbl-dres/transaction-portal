@@ -512,7 +512,10 @@
       if (!prop || !prop.lat || !prop.lng) return;
       document.querySelectorAll('.map-sidebar-item').forEach(item => {
         item.classList.remove('active');
-        if (item.dataset.id === id) item.classList.add('active');
+        if (item.dataset.id === id) {
+          item.classList.add('active');
+          if (item.scrollIntoView) item.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+        }
       });
       document.querySelectorAll('.marker').forEach(m => m.classList.remove('selected'));
       const md = markersMap.get(id);
@@ -529,6 +532,10 @@
     }
 
     function initializeMap() {
+      if (typeof maplibregl === 'undefined') {
+        document.getElementById('map').innerHTML = '<div class="map-fallback">Karte konnte nicht geladen werden (Kartenbibliothek nicht verfügbar).</div>';
+        return;
+      }
       map = new maplibregl.Map({
         container: 'map',
         style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
@@ -665,6 +672,17 @@
       const searchInput = document.getElementById('searchInput');
       const clearBtn = document.getElementById('searchInputClear');
       let debounceTimer;
+
+      // The full placeholder is truncated on phones; swap in the short variant there.
+      const longPlaceholder = searchInput.placeholder;
+      const shortPlaceholder = searchInput.dataset.placeholderShort;
+      if (shortPlaceholder && window.matchMedia) {
+        const phoneQuery = window.matchMedia('(max-width: 640px)');
+        const applyPlaceholder = () => { searchInput.placeholder = phoneQuery.matches ? shortPlaceholder : longPlaceholder; };
+        applyPlaceholder();
+        if (phoneQuery.addEventListener) phoneQuery.addEventListener('change', applyPlaceholder);
+        else if (phoneQuery.addListener) phoneQuery.addListener(applyPlaceholder);
+      }
       searchInput.addEventListener('input', (e) => {
         clearTimeout(debounceTimer);
         clearBtn.classList.toggle('visible', e.target.value.length > 0);
@@ -766,7 +784,8 @@
             <div class="detail-thumb clickable" style="background-image: url('${thumbImages[2]}')" data-image-index="3"></div>
             <div class="detail-thumb clickable" style="background-image: url('${thumbImages[3]}')" data-image-index="4">
               <div class="detail-thumb-overlay">
-                <span>Alle ${allGalleryImages.length} Bilder anzeigen.</span>
+                <span class="detail-thumb-overlay-label">Alle ${allGalleryImages.length} Bilder anzeigen.</span>
+                <span class="detail-thumb-overlay-short">+${allGalleryImages.length}</span>
               </div>
             </div>
           </div>
@@ -962,7 +981,7 @@
                 <div class="detail-data-value">${formatCHF(prop.acquisitionValue)}</div>
                 <div class="detail-data-label">Anschaffungswert</div>
               </div>
-              <div class="detail-data-item">
+              <div class="detail-data-item detail-data-item-spacer" aria-hidden="true">
                 <div class="detail-data-value">&nbsp;</div>
                 <div class="detail-data-label">&nbsp;</div>
               </div>
@@ -970,7 +989,7 @@
                 <div class="detail-data-value">${prop.hasBuildingRights !== null ? (prop.hasBuildingRights ? 'Ja' : 'Nein') : 'Null'}</div>
                 <div class="detail-data-label">Baurecht vorhanden?</div>
               </div>
-              <div class="detail-data-item">
+              <div class="detail-data-item detail-data-item-spacer" aria-hidden="true">
                 <div class="detail-data-value">&nbsp;</div>
                 <div class="detail-data-label">&nbsp;</div>
               </div>
@@ -1101,7 +1120,7 @@
                   </button>
                 </div>
               </div>
-              <div id="eventsTableContainer">
+              <div id="eventsTableContainer" class="table-scroll">
                 ${renderEventsTable(prop.events)}
               </div>
             </div>
@@ -1145,7 +1164,7 @@
                   </button>
                 </div>
               </div>
-              <div id="documentsTableContainer">
+              <div id="documentsTableContainer" class="table-scroll">
                 ${renderDocumentsTable(prop.documents)}
               </div>
             </div>
@@ -2071,6 +2090,17 @@
         return;
       }
 
+      // Checkbox cells: the 18px box is a small touch target, so the whole cell toggles it
+      const checkboxCell = event.target.closest('.data-table-checkbox');
+      if (checkboxCell && event.target.tagName !== 'INPUT') {
+        const checkbox = checkboxCell.querySelector('input[type="checkbox"]');
+        if (checkbox) {
+          checkbox.checked = !checkbox.checked;
+          checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        return;
+      }
+
       // Check if clicked on a detail gallery image (main or thumbnail)
       const galleryImage = event.target.closest('.detail-main-image.clickable, .detail-thumb.clickable');
       if (galleryImage) {
@@ -2371,7 +2401,7 @@
                      placeholder="Mit Adresse, PLZ oder Ort suchen..."
                      value="${salesFormData.location.searchText}"
                      autocomplete="off">
-              <button type="button" class="sales-form-search-clear ${salesFormData.location.searchText ? 'visible' : ''}" id="searchClearBtn" onclick="clearSearchInput()">
+              <button type="button" class="sales-form-search-clear ${salesFormData.location.searchText ? 'visible' : ''}" id="searchClearBtn" onclick="clearSearchInput()" aria-label="Suche löschen">
                 <span class="material-icons-outlined">close</span>
               </button>
               <div class="sales-form-search-results" id="locationSearchResults"></div>
@@ -2380,7 +2410,7 @@
               <div class="sales-form-selected-location">
                 <span class="material-icons-outlined">location_on</span>
                 <span class="sales-form-selected-location-text">${salesFormData.location.label}</span>
-                <button class="sales-form-selected-location-clear" onclick="clearSelectedLocation()">
+                <button class="sales-form-selected-location-clear" onclick="clearSelectedLocation()" aria-label="Standort entfernen">
                   <span class="material-icons-outlined">close</span>
                 </button>
               </div>
@@ -2860,7 +2890,7 @@
             <div class="sales-form-photos-grid" id="photosGrid">
               ${salesFormData.photos.map((photo, index) => `
                 <div class="sales-form-photo-thumb" style="background-image: url('${photo}')">
-                  <button class="sales-form-photo-remove" onclick="removePhoto(${index})">
+                  <button class="sales-form-photo-remove" onclick="removePhoto(${index})" aria-label="Foto entfernen">
                     <span class="material-icons-outlined">close</span>
                   </button>
                 </div>
@@ -3157,7 +3187,7 @@
       if (grid) {
         grid.innerHTML = salesFormData.photos.map((photo, index) => `
           <div class="sales-form-photo-thumb" style="background-image: url('${photo}')">
-            <button class="sales-form-photo-remove" onclick="removePhoto(${index})">
+            <button class="sales-form-photo-remove" onclick="removePhoto(${index})" aria-label="Foto entfernen">
               <span class="material-icons-outlined">close</span>
             </button>
           </div>
@@ -3510,6 +3540,14 @@
     }
 
     // --- INIT ---
+    // Icons come from Google Fonts. If that CDN is blocked (offline, restrictive network),
+    // the ligature names would render as words; flag it so CSS can hide them.
+    if (document.fonts && document.fonts.load) {
+      document.fonts.load('24px "Material Icons Outlined"')
+        .then(faces => { if (!faces.length) document.documentElement.classList.add('no-icon-font'); })
+        .catch(() => document.documentElement.classList.add('no-icon-font'));
+    }
+
     // Save original URL params BEFORE they get overwritten by setView() -> updateUrlParams()
     const initialParams = getUrlParams();
 

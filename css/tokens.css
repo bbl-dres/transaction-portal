@@ -97,6 +97,11 @@
   --space-16: 64px;
   --space-20: 80px;
 
+  /* Layout */
+  --page-max-width: 1440px;
+  --page-gutter: var(--space-6);        /* Horizontal page padding (16px on phones, see below) */
+  --panel-padding: var(--space-6);      /* Inner padding of content panels (16px on phones) */
+
   /* Semantic Spacing Aliases */
   --spacing-section: var(--space-8);      /* 32px - Major section separation */
   --spacing-subsection: var(--space-6);   /* 24px - Subsection separation */
@@ -157,4 +162,12 @@
 
   /* Overlays */
   --overlay-bg: rgba(0, 0, 0, 0.5);
+}
+
+/* Tighter gutters on phones so content gets the width instead of the margins */
+@media (max-width: 640px) {
+  :root {
+    --page-gutter: var(--space-4);
+    --panel-padding: var(--space-4);
+  }
 }

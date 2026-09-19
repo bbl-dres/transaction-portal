@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#383E54">
   <title>Verkaufsplattform - Bundesamt für Bauten und Logistik</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
   <script src="https://unpkg.com/maplibre-gl@5.18.0/dist/maplibre-gl.js"></script>
@@ -13,7 +14,7 @@
 <body>
   <a href="#main" class="skip-link">Zum Hauptinhalt springen</a>
   <header class="header">
-    <a href="/" class="header-left">
+    <a href="./" class="header-left">
       <div class="logo"><img src="assets/images/ch.png" alt="Schweizer Wappen"></div>
       <div class="header-title">
         <span class="header-title-main">Verkaufsplattform</span>
@@ -33,15 +34,15 @@
       <div class="search-row">
         <div class="search-input-wrapper">
           <span class="material-icons-outlined">search</span>
-          <input type="search" class="search-input" id="searchInput" placeholder="Suche nach Bezeichnung, Adresse, oder Wirtschaftseinheit" autocomplete="off">
-          <button type="button" class="search-input-clear" id="searchInputClear">
+          <input type="search" class="search-input" id="searchInput" placeholder="Suche nach Bezeichnung, Adresse, oder Wirtschaftseinheit" data-placeholder-short="Bezeichnung oder Adresse suchen" aria-label="Suche" autocomplete="off">
+          <button type="button" class="search-input-clear" id="searchInputClear" aria-label="Suche löschen">
             <span class="material-icons-outlined">close</span>
           </button>
         </div>
         <div class="view-toggle">
-          <button class="view-btn" data-view="map" title="Karte"><span class="material-icons-outlined">map</span></button>
-          <button class="view-btn" data-view="list" title="Liste"><span class="material-icons-outlined">reorder</span><span class="view-btn-label">Liste</span></button>
-          <button class="view-btn active" data-view="gallery" title="Galerie"><span class="material-icons-outlined">grid_view</span></button>
+          <button class="view-btn" data-view="map" title="Karte" aria-label="Karte"><span class="material-icons-outlined">map</span></button>
+          <button class="view-btn" data-view="list" title="Liste" aria-label="Liste"><span class="material-icons-outlined">reorder</span><span class="view-btn-label">Liste</span></button>
+          <button class="view-btn active" data-view="gallery" title="Galerie" aria-label="Galerie"><span class="material-icons-outlined">grid_view</span></button>
         </div>
       </div>
       <div class="filter-row">
@@ -154,10 +155,10 @@
       <div class="filter-modal-header">
         <h2 id="filterModalTitle">Suchfilter</h2>
         <div class="filter-modal-actions">
-          <button class="filter-reset-btn" id="filterResetBtn" title="Filter zurücksetzen">
+          <button class="filter-reset-btn" id="filterResetBtn" title="Filter zurücksetzen" aria-label="Filter zurücksetzen">
             <span class="material-icons-outlined">refresh</span>
           </button>
-          <button class="filter-close-btn" id="filterCloseBtn">
+          <button class="filter-close-btn" id="filterCloseBtn" aria-label="Schliessen">
             <span class="material-icons-outlined">close</span>
           </button>
         </div>
@@ -193,18 +194,18 @@
   <div class="carousel-overlay" id="carouselOverlay" role="dialog" aria-modal="true" aria-label="Bildergalerie">
     <div class="carousel-header">
       <span class="carousel-counter" id="carouselCounter" aria-live="polite">1 / 5</span>
-      <button class="carousel-close-btn" onclick="closeCarousel()" title="Schliessen (Esc)">
+      <button class="carousel-close-btn" onclick="closeCarousel()" title="Schliessen (Esc)" aria-label="Schliessen">
         <span class="material-icons-outlined">close</span>
       </button>
     </div>
     <div class="carousel-main" onclick="if(event.target === this) closeCarousel()">
-      <button class="carousel-nav-btn prev" onclick="navigateCarousel(-1)" title="Vorheriges Bild">
+      <button class="carousel-nav-btn prev" onclick="navigateCarousel(-1)" title="Vorheriges Bild" aria-label="Vorheriges Bild">
         <span class="material-icons-outlined">chevron_left</span>
       </button>
       <div class="carousel-image-container">
         <img class="carousel-image" id="carouselImage" src="" alt="Bild">
       </div>
-      <button class="carousel-nav-btn next" onclick="navigateCarousel(1)" title="Nächstes Bild">
+      <button class="carousel-nav-btn next" onclick="navigateCarousel(1)" title="Nächstes Bild" aria-label="Nächstes Bild">
         <span class="material-icons-outlined">chevron_right</span>
       </button>
     </div>
